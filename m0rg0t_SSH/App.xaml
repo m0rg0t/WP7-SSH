@@ -1,0 +1,31 @@
+﻿<Application 
+    x:Class="m0rg0t_SSH.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
+
+    <!--Application Resources-->
+    <Application.Resources>
+        <!--Sample code showing usage of ApplicationBar-->
+        <shell:ApplicationBar x:Key="GlobalAppMenuBar" Opacity="1" IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="home_button" IconUri="/icons/appbar.basecircle.rest.png" Text="Home" Click="home_button_Click" />
+            <shell:ApplicationBarIconButton Click="ApplicationBarMenuSettings_Click" x:Name="settings_button" IconUri="/icons/appbar.feature.settings.rest.png" Text="Settings" />
+            <shell:ApplicationBarIconButton x:Name="servmanage_button" IconUri="/icons/appbar.favs.rest.png"  Click="ApplicationBarServersList_Click" Text="Servers"/>
+            <shell:ApplicationBarIconButton x:Name="sync_button" IconUri="/icons/appbar.refresh.rest.png" Text="Sync"  Click="ApplicationBarSync_Click"/>
+                <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Settings" Click="ApplicationBarMenuSettings_Click"/>
+                <shell:ApplicationBarMenuItem Text="Server Manager" Click="ApplicationBarServersList_Click"/>
+                <shell:ApplicationBarMenuItem Text="Sync" Click="ApplicationBarSync_Click"/>    
+                </shell:ApplicationBar.MenuItems>
+            </shell:ApplicationBar>
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService 
+            Launching="Application_Launching" Closing="Application_Closing" 
+            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+
+</Application>
