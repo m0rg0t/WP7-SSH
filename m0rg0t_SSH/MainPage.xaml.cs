@@ -37,19 +37,28 @@ namespace m0rg0t_SSH
         {
             this.CommandOutput.Text += this.Commandline.Text + "\r\n";
             WebClient web = new WebClient();
-            web.DownloadStringAsync(new Uri("http://m0rg0t.com/connect?message=" + this.Commandline.Text));
             web.DownloadStringCompleted += new DownloadStringCompletedEventHandler(web_DownloadStringCompleted);
+            web.DownloadStringAsync(new Uri("http://m0rg0t.com/connect?message=" + Uri.EscapeDataString(this.Commandline.Text)));
         }
 
         string GetDataFromXML(string type, DownloadStringCompletedEventArgs e)
         {
             string data = "";
-            XmlReader r = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.UTF8.GetBytes(e.Result)));
-            while (r.ReadToFollowing(type))
+            using (XmlReader r = XmlReader.Create(new StringReader(e.Result)))
             {
-                data = data + r.ReadElementContentAsString();
-            };
-            r.Close();
+                while (!r.EOF)
+                {
+                    if (r.NodeType == XmlNodeType.Element && r.Name == type)
+                    {
+                        // This advances to the next node, which may be another message.
+                        data = data + r.ReadElementContentAsString();
+                    }
+                    else
+                    {
+                        r.Read();
+                    }
+                }
+            }
             return data;
         }
 
